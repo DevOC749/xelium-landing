@@ -1,12 +1,17 @@
-/* XELIUM Landing — Full styles.css (replace entire file) */
+/* XELIUM Landing — Dark Space Nebula Edition */
 
 * { box-sizing: border-box; }
 
 :root{
   --text: #e5e7eb;
-  --muted: rgba(229,231,235,0.82);
+  --muted: rgba(229,231,235,0.75);
   --link: #7dd3fc;
   --warn: #fca5a5;
+
+  /* Deep space colors (muted versions of sphere colors) */
+  --blue: rgba(56, 120, 180, 0.18);
+  --purple: rgba(120, 70, 160, 0.18);
+  --green: rgba(90, 160, 120, 0.14);
 }
 
 html, body { height: 100%; }
@@ -18,54 +23,67 @@ body{
   color: var(--text);
   overflow: hidden;
 
-  /* Banner-style cinematic backdrop (PUT FILE HERE):
-     /assets/backdrop.png  */
-  background: url("/assets/backdrop.png") center center / cover no-repeat fixed;
+  /* NO IMAGE BACKDROP */
+  background:
+    radial-gradient(1200px 800px at 50% 60%, rgba(20,30,50,0.35), transparent 70%),
+    linear-gradient(180deg, #020617, #000000);
+
   position: relative;
 }
 
-/* Dark + logo-color tint overlay (keeps it darker but vibrant) */
+/* === DARK NEBULA LAYER (PRIMARY) === */
 body::before{
   content:"";
   position: fixed;
-  inset: 0;
+  inset: -40%;
   z-index: 0;
   pointer-events: none;
 
   background:
-    radial-gradient(1200px 700px at 28% 55%, rgba(120,215,255,0.18), transparent 62%), /* cyan */
-    radial-gradient(1000px 650px at 72% 42%, rgba(195,130,255,0.16), transparent 62%), /* purple */
-    radial-gradient(900px 650px at 55% 78%, rgba(140,255,170,0.10), transparent 62%),  /* green */
-    linear-gradient(180deg, rgba(2,6,23,0.72), rgba(2,6,23,0.90)); /* darkness */
+    radial-gradient(closest-side at 20% 45%, var(--blue), transparent 65%),
+    radial-gradient(closest-side at 70% 35%, var(--purple), transparent 68%),
+    radial-gradient(closest-side at 55% 80%, var(--green), transparent 70%),
+    radial-gradient(closest-side at 85% 65%, rgba(30,40,70,0.22), transparent 72%);
+
+  filter: blur(90px);
+  opacity: 0.9;
+
+  animation: nebulaSlowA 28s ease-in-out infinite alternate;
 }
 
-/* Moving “cloud drift” layer (subtle but visible) */
+/* === SECONDARY DEPTH LAYER === */
 body::after{
   content:"";
   position: fixed;
-  inset: -10%;
+  inset: -45%;
   z-index: 0;
   pointer-events: none;
 
   background:
-    radial-gradient(closest-side at 20% 45%, rgba(120,215,255,0.14), transparent 60%),
-    radial-gradient(closest-side at 65% 35%, rgba(195,130,255,0.12), transparent 62%),
-    radial-gradient(closest-side at 55% 80%, rgba(120,215,255,0.09), transparent 65%),
-    radial-gradient(closest-side at 85% 70%, rgba(195,130,255,0.08), transparent 66%);
+    radial-gradient(closest-side at 25% 30%, rgba(40,70,120,0.16), transparent 72%),
+    radial-gradient(closest-side at 60% 20%, rgba(90,50,120,0.14), transparent 74%),
+    radial-gradient(closest-side at 60% 85%, rgba(60,110,90,0.12), transparent 76%);
 
-  filter: blur(46px);
-  opacity: 0.80;
+  filter: blur(120px);
+  opacity: 0.65;
 
-  animation: backdropDrift 18s ease-in-out infinite alternate;
+  animation: nebulaSlowB 40s ease-in-out infinite alternate;
 }
 
-@keyframes backdropDrift{
-  0%   { transform: translate(-1%, 0%) scale(1.02); }
-  50%  { transform: translate( 1%, 1%) scale(1.06); }
-  100% { transform: translate( 2%,-1%) scale(1.03); }
+/* Very slow, heavy movement */
+@keyframes nebulaSlowA{
+  0%   { transform: translate(-2%, -1%) scale(1.02); }
+  50%  { transform: translate( 1%,  2%) scale(1.06); }
+  100% { transform: translate( 3%, -2%) scale(1.04); }
 }
 
-/* Particle canvas overlay */
+@keyframes nebulaSlowB{
+  0%   { transform: translate( 2%,  1%) scale(1.04); }
+  50%  { transform: translate(-1%, -2%) scale(1.08); }
+  100% { transform: translate(-3%,  2%) scale(1.05); }
+}
+
+/* === PARTICLES CANVAS (UNCHANGED) === */
 #particles{
   position: fixed;
   inset: 0;
@@ -75,7 +93,7 @@ body::after{
   pointer-events: none;
 }
 
-/* Centered hero content (no boxes) */
+/* === HERO CONTENT === */
 .hero{
   position: relative;
   z-index: 2;
@@ -89,22 +107,21 @@ body::after{
   text-align: center;
 }
 
-/* Logo */
+/* LOGO */
 .logo{
   width: min(560px, 86vw);
   height: auto;
   display: block;
 
-  /* Premium glow, works well on banner backdrop */
+  /* Subtle glow only — no neon */
   filter:
-    drop-shadow(0 0 18px rgba(56,189,248,0.22))
-    drop-shadow(0 0 44px rgba(59,130,246,0.14))
-    drop-shadow(0 0 76px rgba(167,139,250,0.10));
+    drop-shadow(0 0 18px rgba(70,120,200,0.18))
+    drop-shadow(0 0 40px rgba(120,80,180,0.12));
 }
 
 .tagline{
   margin: 0;
-  font-size: 1.10rem;
+  font-size: 1.05rem;
   color: var(--muted);
 }
 
@@ -112,22 +129,32 @@ body::after{
   margin: 0;
   max-width: 64ch;
   line-height: 1.65;
-  color: rgba(229,231,235,0.92);
+  color: rgba(229,231,235,0.88);
 }
 
-/* Status: subtle, not a “box” */
+/* STATUS — minimal, dark */
 .status{
   margin-top: 6px;
-  padding: 10px 12px;
-  border-radius: 12px;
-  background: rgba(2,6,23,0.22);
-  box-shadow: 0 0 0 1px rgba(125,211,252,0.10) inset;
+  padding: 0;           /* remove box spacing */
+  border-radius: 0;     /* remove rounded box */
+  background: none;     /* remove square */
+  box-shadow: none;     /* remove border/box */
 }
 
-.statusTitle{ font-weight: 800; }
-.statusSub{ margin-top: 4px; color: rgba(163,179,199,0.90); }
+.statusTitle{
+  font-weight: 600;     /* not bold */
+  font-size: 1.05rem;   /* visible but clean */
+  letter-spacing: 0.01em;
+}
 
-/* Links */
+.statusSub{
+  margin-top: 6px;
+  font-weight: 400;
+  font-size: 0.98rem;
+  color: rgba(180,190,210,0.78);
+}
+
+/* LINKS */
 .links{
   display: flex;
   align-items: center;
@@ -136,7 +163,7 @@ body::after{
 }
 
 .linksLabel{
-  color: rgba(163,179,199,0.92);
+  color: rgba(180,190,210,0.8);
   font-weight: 700;
 }
 
@@ -146,31 +173,25 @@ body::after{
   font-weight: 900;
   padding: 9px 14px;
   border-radius: 999px;
-  background: rgba(2,6,23,0.26);
+  background: rgba(5,10,20,0.55);
   box-shadow:
-    0 0 0 1px rgba(125,211,252,0.18) inset,
-    0 0 30px rgba(56,189,248,0.10);
-  transition: transform 120ms ease, box-shadow 160ms ease, filter 160ms ease;
+    0 0 0 1px rgba(120,150,200,0.18) inset,
+    0 0 28px rgba(60,90,140,0.12);
 }
 
 .linkPill:hover{
   text-decoration: underline;
-  transform: translateY(-1px);
-  box-shadow:
-    0 0 0 1px rgba(125,211,252,0.28) inset,
-    0 0 42px rgba(56,189,248,0.14);
 }
 
-/* Warning */
+/* WARNING */
 .warning{
   margin-top: 4px;
   color: var(--warn);
   font-size: 0.95rem;
   max-width: 72ch;
-  text-shadow: 0 1px 10px rgba(0,0,0,0.30);
 }
 
-/* Footer pinned */
+/* FOOTER */
 .footer{
   position: relative;
   z-index: 2;
@@ -179,12 +200,15 @@ body::after{
   align-items: center;
   justify-content: center;
   padding: 10px 16px;
-  color: rgba(163,179,199,0.72);
+  color: rgba(160,170,190,0.65);
   font-size: 0.85rem;
 }
 
-/* Accessibility: respect reduced motion */
+/* Accessibility */
 @media (prefers-reduced-motion: reduce){
-  body::after{ animation: none; }
+  body::before,
+  body::after{
+    animation: none;
+  }
 }
 
