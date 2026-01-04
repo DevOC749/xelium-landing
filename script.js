@@ -22,109 +22,84 @@
   window.addEventListener("resize", resize);
   resize();
 
-  // Match XELIUM logo spheres (green, blue/cyan, purple)
+  // Match your logo spheres: green, cyan/blue, purple
   const palette = [
-    { r: 120, g: 255, b: 160 }, // neon green
-    { r: 110, g: 210, b: 255 }, // cyan/blue
-    { r: 190, g: 120, b: 255 }  // purple
+    { r: 140, g: 255, b: 170 }, // green
+    { r: 120, g: 215, b: 255 }, // cyan/blue
+    { r: 195, g: 130, b: 255 }  // purple
   ];
 
   function rand(min, max) { return Math.random() * (max - min) + min; }
   function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
 
-  // Particle count scales with screen size
-  const COUNT = Math.floor(Math.min(120, Math.max(60, (w * h) / 16000)));
+  const COUNT = Math.floor(Math.min(130, Math.max(70, (w * h) / 15000)));
   const particles = [];
 
   for (let i = 0; i < COUNT; i++) {
+    particles.push(makeParticle(true));
+  }
+
+  function makeParticle(randomPos=false){
     const c = pick(palette);
-    particles.push({
-      x: rand(0, w),
-      y: rand(0, h),
+    return {
+      x: randomPos ? rand(0, w) : -20,
+      y: randomPos ? rand(0, h) : rand(0, h),
       r: rand(0.9, 2.4),
-      vx: rand(0.10, 0.55),  // forward drift for "comet" feel
-      vy: rand(-0.15, 0.25),
+      vx: rand(0.12, 0.55),
+      vy: rand(-0.12, 0.22),
       a: rand(0.25, 0.75),
       c
-    });
+    };
   }
 
-  function drawParticle(p) {
-    // soft glow dot
-    ctx.beginPath();
-    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-    ctx.fillStyle = `rgba(${p.c.r}, ${p.c.g}, ${p.c.b}, ${p.a})`;
-    ctx.fill();
-  }
-
-  // Very subtle links (optional) - leave on; tell me if you want them removed
-  function drawLinks() {
-    const maxDist = 105;
-    for (let i = 0; i < particles.length; i++) {
-      for (let j = i + 1; j < particles.length; j++) {
-        const a = particles[i], b = particles[j];
-        const dx = a.x - b.x, dy = a.y - b.y;
-        const dist = Math.hypot(dx, dy);
-        if (dist < maxDist) {
-          const t = 1 - dist / maxDist;
-          // blend color lightly (use cyan-ish)
-          ctx.strokeStyle = `rgba(110, 210, 255, ${0.06 * t})`;
-          ctx.lineWidth = 1;
-          ctx.beginPath();
-          ctx.moveTo(a.x, a.y);
-          ctx.lineTo(b.x, b.y);
-          ctx.stroke();
-        }
-      }
-    }
-  }
-
-  // Comet trail: we DO NOT fully clear the canvas each frame.
-  // Instead, we paint a very transparent dark layer to fade previous frames.
-  function fadeFrame() {
-    ctx.fillStyle = "rgba(0, 0, 0, 0.10)"; // lower = longer trails; higher = shorter
-    ctx.fillRect(0, 0, w, h);
-  }
+  // Fade for comet trails (lower = longer trails)
+  const FADE = 0.10;
 
   let last = performance.now();
   function tick(now) {
     const dt = Math.min(32, now - last);
     last = now;
 
-    fadeFrame();
+    // Fade previous frame instead of full clear
+    ctx.fillStyle = `rgba(0, 0, 0, ${FADE})`;
+    ctx.fillRect(0, 0, w, h);
 
     for (const p of particles) {
-      // Draw a short "comet" stroke behind the particle
-      const tail = 10; // tail length in px
+      // comet stroke behind particle
+      const tail = 12;
       const tx = p.x - p.vx * tail;
       const ty = p.y - p.vy * tail;
 
       ctx.beginPath();
       ctx.moveTo(tx, ty);
       ctx.lineTo(p.x, p.y);
-      ctx.strokeStyle = `rgba(${p.c.r}, ${p.c.g}, ${p.c.b}, ${Math.min(0.35, p.a)})`;
+      ctx.strokeStyle = `rgba(${p.c.r}, ${p.c.g}, ${p.c.b}, ${Math.min(0.38, p.a)})`;
       ctx.lineWidth = Math.max(1, p.r);
       ctx.stroke();
 
-      // Move
+      // dot glow
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(${p.c.r}, ${p.c.g}, ${p.c.b}, ${p.a})`;
+      ctx.fill();
+
+      // move
       p.x += p.vx * dt;
       p.y += p.vy * dt;
 
-      // Wrap
-      if (p.x < -20) p.x = w + 20;
-      if (p.x > w + 20) p.x = -20;
-      if (p.y < -20) p.y = h + 20;
-      if (p.y > h + 20) p.y = -20;
-
-      drawParticle(p);
+      // wrap
+      if (p.x < -40) p.x = w + 40;
+      if (p.x > w + 40) p.x = -40;
+      if (p.y < -40) p.y = h + 40;
+      if (p.y > h + 40) p.y = -40;
     }
 
-    drawLinks();
     requestAnimationFrame(tick);
   }
 
-  // Start with a clean frame
+  // Start clean
   ctx.clearRect(0, 0, w, h);
   requestAnimationFrame(tick);
 })();
+
 

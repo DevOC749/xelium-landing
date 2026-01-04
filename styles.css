@@ -1,139 +1,192 @@
 * { box-sizing: border-box; }
 
-:root {
-  --bg1: #0b1220;
-  --bg2: #020617;
-  --text: #e5e7eb;
-  --muted: #94a3b8;
-  --border: rgba(148, 163, 184, 0.18);
-  --card: rgba(2, 6, 23, 0.55);
-  --link: #7dd3fc;
-  --warn: #fca5a5;
+:root{
+  --bg0:#020617;
+  --bg1:#071225;
+  --text:#e5e7eb;
+  --muted:#a3b3c7;
+  --link:#7dd3fc;
+  --warn:#fca5a5;
 }
 
-body {
-  margin: 0;
-  min-height: 100vh;
+html, body { height: 100%; }
+
+body{
+  margin:0;
+  min-height:100vh;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
   color: var(--text);
+  overflow:hidden;
 
-  /* Dark base background (keep it clean so logo is the focus) */
-  background: radial-gradient(circle at top, var(--bg1), var(--bg2));
-
-  display: grid;
-  grid-template-rows: 1fr auto;
-  overflow: hidden;
+  /* Deep space base */
+  background:
+    radial-gradient(1200px 700px at 50% 65%, rgba(56,189,248,0.08), transparent 60%),
+    radial-gradient(900px 600px at 15% 20%, rgba(167,139,250,0.08), transparent 55%),
+    radial-gradient(900px 600px at 85% 25%, rgba(34,211,238,0.07), transparent 55%),
+    linear-gradient(180deg, var(--bg1), var(--bg0));
 }
 
-/* If you still have the particle canvas, keep it behind everything */
-#particles {
+/* Animated nebula “clouds” (pure CSS) */
+body::before,
+body::after{
+  content:"";
+  position: fixed;
+  inset:-20%;
+  z-index:0;
+  pointer-events:none;
+  filter: blur(40px);
+  opacity: 0.85;
+  transform: translate3d(0,0,0);
+}
+
+/* Big, slow moving cloud layer */
+body::before{
+  background:
+    radial-gradient(closest-side at 18% 42%, rgba(56,189,248,0.22), transparent 55%),
+    radial-gradient(closest-side at 40% 70%, rgba(34,211,238,0.16), transparent 60%),
+    radial-gradient(closest-side at 70% 40%, rgba(59,130,246,0.16), transparent 58%),
+    radial-gradient(closest-side at 80% 75%, rgba(167,139,250,0.14), transparent 60%);
+  animation: nebulaDriftA 22s ease-in-out infinite alternate;
+}
+
+/* Secondary cloud layer for depth */
+body::after{
+  background:
+    radial-gradient(closest-side at 25% 30%, rgba(56,189,248,0.14), transparent 62%),
+    radial-gradient(closest-side at 60% 25%, rgba(34,211,238,0.12), transparent 60%),
+    radial-gradient(closest-side at 55% 80%, rgba(167,139,250,0.10), transparent 65%);
+  animation: nebulaDriftB 28s ease-in-out infinite alternate;
+  opacity: 0.65;
+  filter: blur(55px);
+}
+
+@keyframes nebulaDriftA{
+  0%   { transform: translate(-2%, -1%) scale(1.02) rotate(-1deg); }
+  50%  { transform: translate( 1%,  2%) scale(1.06) rotate( 1deg); }
+  100% { transform: translate( 2%, -2%) scale(1.04) rotate( 2deg); }
+}
+
+@keyframes nebulaDriftB{
+  0%   { transform: translate( 2%,  1%) scale(1.03) rotate( 1deg); }
+  50%  { transform: translate(-1%, -2%) scale(1.06) rotate(-1deg); }
+  100% { transform: translate(-2%,  2%) scale(1.04) rotate(-2deg); }
+}
+
+/* Particle canvas overlay */
+#particles{
   position: fixed;
   inset: 0;
   width: 100vw;
   height: 100vh;
-  pointer-events: none;
-  z-index: 0;
-}
-
-.container {
-  position: relative;
   z-index: 1;
-  display: grid;
-  place-items: center;
-  padding: 28px 16px;
+  pointer-events:none;
 }
 
-.card {
-  width: min(720px, 100%);
-  text-align: center;
-  padding: 28px 22px;
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  background: var(--card);
-  backdrop-filter: blur(10px);
-  box-shadow: 0 10px 40px rgba(0,0,0,0.35);
+/* Centered hero content (no boxes) */
+.hero{
+  position: relative;
+  z-index: 2;
+  min-height: calc(100vh - 60px);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap: 14px;
+  padding: 34px 18px 18px;
+  text-align:center;
 }
 
-.logo {
-  width: min(420px, 85vw);
+.logo{
+  width: min(560px, 86vw);
   height: auto;
-  display: block;
-  margin: 0 auto 18px auto;
+  display:block;
 
-  /* Subtle glow to make logo pop */
-  filter: drop-shadow(0 0 18px rgba(125, 211, 252, 0.25))
-          drop-shadow(0 0 38px rgba(59, 130, 246, 0.12));
+  /* Make logo pop */
+  filter:
+    drop-shadow(0 0 18px rgba(56,189,248,0.22))
+    drop-shadow(0 0 42px rgba(59,130,246,0.14))
+    drop-shadow(0 0 70px rgba(167,139,250,0.08));
 }
 
-.tagline {
-  margin: 0 0 10px 0;
-  font-size: 1.05rem;
+.tagline{
+  margin: 0;
+  font-size: 1.10rem;
   color: var(--muted);
 }
 
-.description {
-  margin: 0 auto 18px auto;
-  max-width: 60ch;
-  font-size: 1rem;
-  line-height: 1.6;
-  color: var(--text);
+.desc{
+  margin: 0;
+  max-width: 64ch;
+  line-height: 1.65;
+  color: rgba(229,231,235,0.92);
 }
 
-.status {
-  margin: 0 auto 18px auto;
-  padding: 14px 14px;
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  background: rgba(2, 6, 23, 0.35);
-}
-
-.status-title { font-weight: 600; }
-.status-sub { color: var(--muted); margin-top: 4px; }
-
-.verify {
-  margin: 0 auto 14px auto;
-}
-
-.verify-title {
-  font-weight: 700;
-  margin-bottom: 6px;
-}
-
-.verify-links {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
+.status{
+  margin-top: 6px;
   padding: 10px 12px;
-  border: 1px solid var(--border);
-  border-radius: 999px;
-  background: rgba(2, 6, 23, 0.35);
+  border-radius: 12px;
+
+  /* No “box” look—just subtle glow */
+  background: rgba(2,6,23,0.18);
+  box-shadow: 0 0 0 1px rgba(148,163,184,0.10) inset;
 }
 
-.verify-links a {
-  color: var(--link);
-  text-decoration: none;
+.statusTitle{ font-weight: 700; }
+.statusSub{ margin-top: 4px; color: var(--muted); }
+
+.links{
+  display:flex;
+  align-items:center;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.linksLabel{
+  color: rgba(163,179,199,0.9);
   font-weight: 600;
 }
 
-.verify-links a:hover {
+.linkPill{
+  text-decoration: none;
+  color: var(--link);
+  font-weight: 800;
+  padding: 9px 14px;
+  border-radius: 999px;
+  background: rgba(2,6,23,0.22);
+  box-shadow:
+    0 0 0 1px rgba(125,211,252,0.18) inset,
+    0 0 26px rgba(56,189,248,0.08);
+}
+
+.linkPill:hover{
   text-decoration: underline;
+  box-shadow:
+    0 0 0 1px rgba(125,211,252,0.26) inset,
+    0 0 34px rgba(56,189,248,0.12);
 }
 
-.dot {
-  color: rgba(148, 163, 184, 0.6);
-}
-
-.warning {
-  margin-top: 10px;
-  font-size: 0.95rem;
+.warning{
+  margin-top: 4px;
   color: var(--warn);
+  font-size: 0.95rem;
+  max-width: 70ch;
 }
 
-.footer {
+/* Footer pinned */
+.footer{
   position: relative;
-  z-index: 1;
-  padding: 18px 16px;
-  text-align: center;
-  color: rgba(148, 163, 184, 0.75);
+  z-index: 2;
+  height: 60px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding: 10px 16px;
+  color: rgba(163,179,199,0.70);
   font-size: 0.85rem;
 }
+
+/* Respect users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce){
+  body::before, body::after { animation: none; }
+}
+
