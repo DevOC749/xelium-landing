@@ -1,96 +1,106 @@
-/* XELIUM Landing — Dark Space Nebula Edition */
+/* XELIUM Landing — Stable Dark Nebula + Minimal Stars (FULL FILE) */
 
 * { box-sizing: border-box; }
 
 :root{
   --text: #e5e7eb;
-  --muted: rgba(229,231,235,0.75);
+  --muted: rgba(229,231,235,0.78);
   --link: #7dd3fc;
   --warn: #fca5a5;
-
-  /* Deep space colors (muted versions of sphere colors) */
-  --blue: rgba(56, 120, 180, 0.18);
-  --purple: rgba(120, 70, 160, 0.18);
-  --green: rgba(90, 160, 120, 0.14);
 }
 
 html, body { height: 100%; }
 
+body{
+  margin: 0;
+  min-height: 100vh;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  color: var(--text);
+  overflow: hidden;
+  position: relative;
+
+  /* Deep space base (NO image) */
+  background:
+    radial-gradient(1200px 800px at 50% 60%, rgba(20,30,50,0.35), transparent 70%),
+    linear-gradient(180deg, #020617, #000000);
+}
+
+/* Nebula layer 1 (more visible, dark colors) */
 body::before{
   content:"";
   position: fixed;
   inset: -45%;
   z-index: 0;
   pointer-events: none;
+  mix-blend-mode: screen;
 
   background:
-    radial-gradient(closest-side at 18% 44%, rgba(35, 95, 155, 0.28), transparent 66%),  /* deep blue */
-    radial-gradient(closest-side at 72% 38%, rgba(95, 55, 150, 0.26), transparent 68%),  /* dark purple */
-    radial-gradient(closest-side at 55% 82%, rgba(45, 120, 85, 0.18), transparent 72%),  /* dark green */
-    radial-gradient(closest-side at 86% 70%, rgba(25, 45, 90, 0.22), transparent 74%);   /* shadow blue */
+    radial-gradient(closest-side at 18% 44%, rgba(35, 95, 155, 0.30), transparent 66%),
+    radial-gradient(closest-side at 72% 38%, rgba(95, 55, 150, 0.28), transparent 68%),
+    radial-gradient(closest-side at 55% 82%, rgba(45, 120, 85, 0.18), transparent 72%),
+    radial-gradient(closest-side at 86% 70%, rgba(25, 45, 90, 0.22), transparent 74%);
 
-  filter: blur(85px);
+  filter: blur(90px);
   opacity: 0.95;
 
   animation: nebulaPulseA 18s ease-in-out infinite alternate;
-  mix-blend-mode: screen;
 }
 
-/* === DARK NEBULA LAYER (PRIMARY) === */
-body::before{
-  content:"";
-  position: fixed;
-  inset: -40%;
-  z-index: 0;
-  pointer-events: none;
-
-  background:
-    radial-gradient(closest-side at 20% 45%, var(--blue), transparent 65%),
-    radial-gradient(closest-side at 70% 35%, var(--purple), transparent 68%),
-    radial-gradient(closest-side at 55% 80%, var(--green), transparent 70%),
-    radial-gradient(closest-side at 85% 65%, rgba(30,40,70,0.22), transparent 72%);
-
-  filter: blur(90px);
-  opacity: 0.9;
-
-  animation: nebulaSlowA 28s ease-in-out infinite alternate;
-}
-
-/* === SECONDARY DEPTH LAYER === */
+/* Nebula layer 2 (depth) */
 body::after{
   content:"";
   position: fixed;
   inset: -55%;
   z-index: 0;
   pointer-events: none;
+  mix-blend-mode: screen;
 
   background:
-    radial-gradient(closest-side at 24% 28%, rgba(55, 120, 190, 0.18), transparent 74%), /* blue */
-    radial-gradient(closest-side at 62% 22%, rgba(120, 70, 175, 0.16), transparent 76%), /* purple */
-    radial-gradient(closest-side at 60% 88%, rgba(55, 150, 110, 0.12), transparent 78%), /* green */
-    radial-gradient(closest-side at 78% 55%, rgba(55, 120, 190, 0.10), transparent 78%); /* blue */
+    radial-gradient(closest-side at 24% 28%, rgba(55, 120, 190, 0.20), transparent 74%),
+    radial-gradient(closest-side at 62% 22%, rgba(120, 70, 175, 0.18), transparent 76%),
+    radial-gradient(closest-side at 60% 88%, rgba(55, 150, 110, 0.14), transparent 78%),
+    radial-gradient(closest-side at 78% 55%, rgba(55, 120, 190, 0.12), transparent 78%);
 
-  filter: blur(120px);
-  opacity: 0.70;
+  filter: blur(125px);
+  opacity: 0.75;
 
   animation: nebulaPulseB 30s ease-in-out infinite alternate;
-  mix-blend-mode: screen;
 }
 
-/* Very slow, heavy movement */
-@keyframes nebulaSlowA{
-  0%   { transform: translate(-2%, -1%) scale(1.02); }
-  50%  { transform: translate( 1%,  2%) scale(1.06); }
-  100% { transform: translate( 3%, -2%) scale(1.04); }
+@keyframes nebulaPulseA{
+  0%   { transform: translate(-2%, -1%) scale(1.02) rotate(-1deg); }
+  50%  { transform: translate( 1%,  2%) scale(1.10) rotate( 1deg); }
+  100% { transform: translate( 3%, -2%) scale(1.06) rotate( 2deg); }
 }
 
-@keyframes nebulaSlowB{
-  0%   { transform: translate( 2%,  1%) scale(1.04); }
-  50%  { transform: translate(-1%, -2%) scale(1.08); }
-  100% { transform: translate(-3%,  2%) scale(1.05); }
+@keyframes nebulaPulseB{
+  0%   { transform: translate( 2%,  1%) scale(1.03) rotate( 1deg); }
+  50%  { transform: translate(-1%, -2%) scale(1.12) rotate(-1deg); }
+  100% { transform: translate(-3%,  2%) scale(1.07) rotate(-2deg); }
 }
 
-/* === PARTICLES CANVAS (UNCHANGED) === */
+/* Minimal stars layer (few points, subtle) */
+.stars{
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.25;
+  background:
+    radial-gradient(1px 1px at 12% 18%, rgba(255,255,255,0.9), transparent 60%),
+    radial-gradient(1px 1px at 22% 72%, rgba(255,255,255,0.8), transparent 60%),
+    radial-gradient(1px 1px at 38% 30%, rgba(255,255,255,0.7), transparent 60%),
+    radial-gradient(1px 1px at 55% 60%, rgba(255,255,255,0.7), transparent 60%),
+    radial-gradient(1px 1px at 68% 22%, rgba(255,255,255,0.8), transparent 60%),
+    radial-gradient(1px 1px at 82% 76%, rgba(255,255,255,0.75), transparent 60%),
+    radial-gradient(1px 1px at 90% 40%, rgba(255,255,255,0.7), transparent 60%),
+    radial-gradient(1px 1px at 15% 52%, rgba(255,255,255,0.6), transparent 60%),
+    radial-gradient(1px 1px at 48% 82%, rgba(255,255,255,0.6), transparent 60%),
+    radial-gradient(1px 1px at 74% 48%, rgba(255,255,255,0.6), transparent 60%);
+  filter: blur(0.2px);
+}
+
+/* Particle canvas overlay */
 #particles{
   position: fixed;
   inset: 0;
@@ -100,7 +110,7 @@ body::after{
   pointer-events: none;
 }
 
-/* === HERO CONTENT === */
+/* Content */
 .hero{
   position: relative;
   z-index: 2;
@@ -114,13 +124,10 @@ body::after{
   text-align: center;
 }
 
-/* LOGO */
 .logo{
   width: min(560px, 86vw);
   height: auto;
   display: block;
-
-  /* Subtle glow only — no neon */
   filter:
     drop-shadow(0 0 18px rgba(70,120,200,0.18))
     drop-shadow(0 0 40px rgba(120,80,180,0.12));
@@ -139,18 +146,17 @@ body::after{
   color: rgba(229,231,235,0.88);
 }
 
-/* STATUS — minimal, dark */
+/* Status with NO box + not too bold */
 .status{
   margin-top: 6px;
-  padding: 0;           /* remove box spacing */
-  border-radius: 0;     /* remove rounded box */
-  background: none;     /* remove square */
-  box-shadow: none;     /* remove border/box */
+  padding: 0;
+  background: none;
+  box-shadow: none;
 }
 
 .statusTitle{
-  font-weight: 600;     /* not bold */
-  font-size: 1.05rem;   /* visible but clean */
+  font-weight: 600;
+  font-size: 1.05rem;
   letter-spacing: 0.01em;
 }
 
@@ -161,7 +167,6 @@ body::after{
   color: rgba(180,190,210,0.78);
 }
 
-/* LINKS */
 .links{
   display: flex;
   align-items: center;
@@ -190,7 +195,6 @@ body::after{
   text-decoration: underline;
 }
 
-/* WARNING */
 .warning{
   margin-top: 4px;
   color: var(--warn);
@@ -198,7 +202,6 @@ body::after{
   max-width: 72ch;
 }
 
-/* FOOTER */
 .footer{
   position: relative;
   z-index: 2;
@@ -211,41 +214,10 @@ body::after{
   font-size: 0.85rem;
 }
 
-/* Accessibility */
 @media (prefers-reduced-motion: reduce){
   body::before,
   body::after{
     animation: none;
   }
-}
-@keyframes nebulaPulseA{
-  0%   { transform: translate(-2%, -1%) scale(1.02) rotate(-1deg); }
-  50%  { transform: translate( 1%,  2%) scale(1.10) rotate( 1deg); }
-  100% { transform: translate( 3%, -2%) scale(1.06) rotate( 2deg); }
-}
-
-@keyframes nebulaPulseB{
-  0%   { transform: translate( 2%,  1%) scale(1.03) rotate( 1deg); }
-  50%  { transform: translate(-1%, -2%) scale(1.12) rotate(-1deg); }
-  100% { transform: translate(-3%,  2%) scale(1.07) rotate(-2deg); }
-}
-.stars{
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  opacity: 0.25; /* minimal stars */
-  background:
-    radial-gradient(1px 1px at 12% 18%, rgba(255,255,255,0.9), transparent 60%),
-    radial-gradient(1px 1px at 22% 72%, rgba(255,255,255,0.8), transparent 60%),
-    radial-gradient(1px 1px at 38% 30%, rgba(255,255,255,0.7), transparent 60%),
-    radial-gradient(1px 1px at 55% 60%, rgba(255,255,255,0.7), transparent 60%),
-    radial-gradient(1px 1px at 68% 22%, rgba(255,255,255,0.8), transparent 60%),
-    radial-gradient(1px 1px at 82% 76%, rgba(255,255,255,0.75), transparent 60%),
-    radial-gradient(1px 1px at 90% 40%, rgba(255,255,255,0.7), transparent 60%),
-    radial-gradient(1px 1px at 15% 52%, rgba(255,255,255,0.6), transparent 60%),
-    radial-gradient(1px 1px at 48% 82%, rgba(255,255,255,0.6), transparent 60%),
-    radial-gradient(1px 1px at 74% 48%, rgba(255,255,255,0.6), transparent 60%);
-  filter: blur(0.2px);
 }
 
