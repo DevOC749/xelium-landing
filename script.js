@@ -22,34 +22,44 @@
   window.addEventListener("resize", resize);
   resize();
 
-  // Particles
-  const COUNT = Math.floor(Math.min(140, Math.max(70, (w * h) / 14000)));
-  const particles = [];
+  // Match XELIUM logo spheres (green, blue/cyan, purple)
+  const palette = [
+    { r: 120, g: 255, b: 160 }, // neon green
+    { r: 110, g: 210, b: 255 }, // cyan/blue
+    { r: 190, g: 120, b: 255 }  // purple
+  ];
 
   function rand(min, max) { return Math.random() * (max - min) + min; }
+  function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+
+  // Particle count scales with screen size
+  const COUNT = Math.floor(Math.min(120, Math.max(60, (w * h) / 16000)));
+  const particles = [];
 
   for (let i = 0; i < COUNT; i++) {
+    const c = pick(palette);
     particles.push({
       x: rand(0, w),
       y: rand(0, h),
-      r: rand(0.8, 2.2),
-      vx: rand(-0.12, 0.25),  // gentle drift
-      vy: rand(-0.05, 0.18),
-      a: rand(0.25, 0.75)     // alpha
+      r: rand(0.9, 2.4),
+      vx: rand(0.10, 0.55),  // forward drift for "comet" feel
+      vy: rand(-0.15, 0.25),
+      a: rand(0.25, 0.75),
+      c
     });
   }
 
-  // A subtle glow color family (blue/cyan)
   function drawParticle(p) {
+    // soft glow dot
     ctx.beginPath();
     ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-    ctx.fillStyle = `rgba(120, 210, 255, ${p.a})`;
+    ctx.fillStyle = `rgba(${p.c.r}, ${p.c.g}, ${p.c.b}, ${p.a})`;
     ctx.fill();
   }
 
-  // Optional faint connection lines for "tech" vibe (kept minimal)
+  // Very subtle links (optional) - leave on; tell me if you want them removed
   function drawLinks() {
-    const maxDist = 110;
+    const maxDist = 105;
     for (let i = 0; i < particles.length; i++) {
       for (let j = i + 1; j < particles.length; j++) {
         const a = particles[i], b = particles[j];
@@ -57,7 +67,8 @@
         const dist = Math.hypot(dx, dy);
         if (dist < maxDist) {
           const t = 1 - dist / maxDist;
-          ctx.strokeStyle = `rgba(80, 190, 255, ${0.08 * t})`;
+          // blend color lightly (use cyan-ish)
+          ctx.strokeStyle = `rgba(110, 210, 255, ${0.06 * t})`;
           ctx.lineWidth = 1;
           ctx.beginPath();
           ctx.moveTo(a.x, a.y);
@@ -68,38 +79,52 @@
     }
   }
 
+  // Comet trail: we DO NOT fully clear the canvas each frame.
+  // Instead, we paint a very transparent dark layer to fade previous frames.
+  function fadeFrame() {
+    ctx.fillStyle = "rgba(0, 0, 0, 0.10)"; // lower = longer trails; higher = shorter
+    ctx.fillRect(0, 0, w, h);
+  }
+
   let last = performance.now();
   function tick(now) {
     const dt = Math.min(32, now - last);
     last = now;
 
-    ctx.clearRect(0, 0, w, h);
+    fadeFrame();
 
-    // Soft vignette to blend particles into banner
-    const grad = ctx.createRadialGradient(w * 0.5, h * 0.65, 0, w * 0.5, h * 0.65, Math.max(w, h));
-    grad.addColorStop(0, "rgba(0,0,0,0)");
-    grad.addColorStop(1, "rgba(0,0,0,0.25)");
-    ctx.fillStyle = grad;
-    ctx.fillRect(0, 0, w, h);
-
-    // Update + draw
     for (const p of particles) {
+      // Draw a short "comet" stroke behind the particle
+      const tail = 10; // tail length in px
+      const tx = p.x - p.vx * tail;
+      const ty = p.y - p.vy * tail;
+
+      ctx.beginPath();
+      ctx.moveTo(tx, ty);
+      ctx.lineTo(p.x, p.y);
+      ctx.strokeStyle = `rgba(${p.c.r}, ${p.c.g}, ${p.c.b}, ${Math.min(0.35, p.a)})`;
+      ctx.lineWidth = Math.max(1, p.r);
+      ctx.stroke();
+
+      // Move
       p.x += p.vx * dt;
       p.y += p.vy * dt;
 
-      // wrap edges
-      if (p.x < -10) p.x = w + 10;
-      if (p.x > w + 10) p.x = -10;
-      if (p.y < -10) p.y = h + 10;
-      if (p.y > h + 10) p.y = -10;
+      // Wrap
+      if (p.x < -20) p.x = w + 20;
+      if (p.x > w + 20) p.x = -20;
+      if (p.y < -20) p.y = h + 20;
+      if (p.y > h + 20) p.y = -20;
 
       drawParticle(p);
     }
 
     drawLinks();
-
     requestAnimationFrame(tick);
   }
 
+  // Start with a clean frame
+  ctx.clearRect(0, 0, w, h);
   requestAnimationFrame(tick);
 })();
+
