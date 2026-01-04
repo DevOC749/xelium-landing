@@ -27,25 +27,45 @@ body{
 
 /* Animated nebula “clouds” (pure CSS) */
 body::before{
-  filter: blur(65px);
-  opacity: 1;
+  content:"";
+  position: fixed;
+  inset: -35%;
+  z-index: 0;
+  pointer-events: none;
+  transform: translate3d(0,0,0);
+  mix-blend-mode: screen;
+
+  filter: blur(70px);
+  opacity: 1.08;
+
   background:
-    radial-gradient(closest-side at 12% 40%, rgba(140,255,170,0.34), transparent 66%), /* green */
-    radial-gradient(closest-side at 30% 78%, rgba(120,215,255,0.34), transparent 68%), /* cyan */
-    radial-gradient(closest-side at 62% 38%, rgba(195,130,255,0.30), transparent 66%), /* purple */
-    radial-gradient(closest-side at 82% 72%, rgba(120,215,255,0.26), transparent 70%), /* cyan */
-    radial-gradient(closest-side at 88% 30%, rgba(195,130,255,0.18), transparent 72%); /* purple */
+    radial-gradient(closest-side at 12% 40%, rgba(140,255,170,0.34), transparent 66%),
+    radial-gradient(closest-side at 30% 78%, rgba(120,215,255,0.34), transparent 68%),
+    radial-gradient(closest-side at 62% 38%, rgba(195,130,255,0.30), transparent 66%),
+    radial-gradient(closest-side at 82% 72%, rgba(120,215,255,0.26), transparent 70%),
+    radial-gradient(closest-side at 88% 30%, rgba(195,130,255,0.18), transparent 72%);
+
   animation: nebulaDriftA 16s ease-in-out infinite alternate;
 }
 
 body::after{
-  filter: blur(95px);
-  opacity: 0.85;
+  content:"";
+  position: fixed;
+  inset: -35%;
+  z-index: 0;
+  pointer-events: none;
+  transform: translate3d(0,0,0);
+  mix-blend-mode: screen;
+
+  filter: blur(105px);
+  opacity: 0.95;
+
   background:
-    radial-gradient(closest-side at 20% 25%, rgba(120,215,255,0.22), transparent 72%), /* cyan */
-    radial-gradient(closest-side at 55% 18%, rgba(195,130,255,0.20), transparent 74%), /* purple */
-    radial-gradient(closest-side at 55% 88%, rgba(140,255,170,0.18), transparent 76%), /* green */
-    radial-gradient(closest-side at 78% 55%, rgba(120,215,255,0.18), transparent 76%); /* cyan */
+    radial-gradient(closest-side at 20% 25%, rgba(120,215,255,0.22), transparent 72%),
+    radial-gradient(closest-side at 55% 18%, rgba(195,130,255,0.20), transparent 74%),
+    radial-gradient(closest-side at 55% 88%, rgba(140,255,170,0.18), transparent 76%),
+    radial-gradient(closest-side at 78% 55%, rgba(120,215,255,0.18), transparent 76%);
+
   animation: nebulaDriftB 22s ease-in-out infinite alternate;
 }
 
