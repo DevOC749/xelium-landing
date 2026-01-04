@@ -32,7 +32,7 @@
   function rand(min, max) { return Math.random() * (max - min) + min; }
   function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
 
-  const COUNT = Math.floor(Math.min(130, Math.max(70, (w * h) / 15000)));
+  const COUNT = Math.floor(Math.min(60, Math.max(28, (w * h) / 35000)));
   const particles = [];
 
   for (let i = 0; i < COUNT; i++) {
@@ -45,8 +45,8 @@
       x: randomPos ? rand(0, w) : -20,
       y: randomPos ? rand(0, h) : rand(0, h),
       r: rand(0.9, 2.4),
-      vx: rand(0.12, 0.55),
-      vy: rand(-0.12, 0.22),
+      vx: rand(0.08, 0.30),
+      vy: rand(-0.08, 0.16),
       a: rand(0.25, 0.75),
       c
     };
