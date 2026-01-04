@@ -1,84 +1,68 @@
+/* XELIUM Landing — Full styles.css (replace entire file) */
+
 * { box-sizing: border-box; }
 
 :root{
-  --bg0:#020617;
-  --bg1:#071225;
-  --text:#e5e7eb;
-  --muted:#a3b3c7;
-  --link:#7dd3fc;
-  --warn:#fca5a5;
+  --text: #e5e7eb;
+  --muted: rgba(229,231,235,0.82);
+  --link: #7dd3fc;
+  --warn: #fca5a5;
 }
 
 html, body { height: 100%; }
 
 body{
-  margin:0;
-  min-height:100vh;
+  margin: 0;
+  min-height: 100vh;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
   color: var(--text);
-  overflow:hidden;
+  overflow: hidden;
 
- background:
-  radial-gradient(1200px 800px at 50% 70%, rgba(120,215,255,0.16), transparent 64%),
-  radial-gradient(1000px 700px at 20% 20%, rgba(195,130,255,0.12), transparent 62%),
-  radial-gradient(900px 650px at 85% 25%, rgba(140,255,170,0.10), transparent 62%),
-  linear-gradient(180deg, #071225, #020617);
+  /* Banner-style cinematic backdrop (PUT FILE HERE):
+     /assets/backdrop.png  */
+  background: url("/assets/backdrop.png") center center / cover no-repeat fixed;
+  position: relative;
 }
 
-/* Animated nebula “clouds” (pure CSS) */
+/* Dark + logo-color tint overlay (keeps it darker but vibrant) */
 body::before{
   content:"";
   position: fixed;
-  inset: -35%;
+  inset: 0;
   z-index: 0;
   pointer-events: none;
-  transform: translate3d(0,0,0);
-  mix-blend-mode: screen;
-
-  filter: blur(70px);
-  opacity: 1.08;
 
   background:
-    radial-gradient(closest-side at 12% 40%, rgba(140,255,170,0.34), transparent 66%),
-    radial-gradient(closest-side at 30% 78%, rgba(120,215,255,0.34), transparent 68%),
-    radial-gradient(closest-side at 62% 38%, rgba(195,130,255,0.30), transparent 66%),
-    radial-gradient(closest-side at 82% 72%, rgba(120,215,255,0.26), transparent 70%),
-    radial-gradient(closest-side at 88% 30%, rgba(195,130,255,0.18), transparent 72%);
-
-  animation: nebulaDriftA 16s ease-in-out infinite alternate;
+    radial-gradient(1200px 700px at 28% 55%, rgba(120,215,255,0.18), transparent 62%), /* cyan */
+    radial-gradient(1000px 650px at 72% 42%, rgba(195,130,255,0.16), transparent 62%), /* purple */
+    radial-gradient(900px 650px at 55% 78%, rgba(140,255,170,0.10), transparent 62%),  /* green */
+    linear-gradient(180deg, rgba(2,6,23,0.72), rgba(2,6,23,0.90)); /* darkness */
 }
 
+/* Moving “cloud drift” layer (subtle but visible) */
 body::after{
   content:"";
   position: fixed;
-  inset: -35%;
+  inset: -10%;
   z-index: 0;
   pointer-events: none;
-  transform: translate3d(0,0,0);
-  mix-blend-mode: screen;
-
-  filter: blur(105px);
-  opacity: 0.95;
 
   background:
-    radial-gradient(closest-side at 20% 25%, rgba(120,215,255,0.22), transparent 72%),
-    radial-gradient(closest-side at 55% 18%, rgba(195,130,255,0.20), transparent 74%),
-    radial-gradient(closest-side at 55% 88%, rgba(140,255,170,0.18), transparent 76%),
-    radial-gradient(closest-side at 78% 55%, rgba(120,215,255,0.18), transparent 76%);
+    radial-gradient(closest-side at 20% 45%, rgba(120,215,255,0.14), transparent 60%),
+    radial-gradient(closest-side at 65% 35%, rgba(195,130,255,0.12), transparent 62%),
+    radial-gradient(closest-side at 55% 80%, rgba(120,215,255,0.09), transparent 65%),
+    radial-gradient(closest-side at 85% 70%, rgba(195,130,255,0.08), transparent 66%);
 
-  animation: nebulaDriftB 22s ease-in-out infinite alternate;
+  filter: blur(46px);
+  opacity: 0.80;
+
+  animation: backdropDrift 18s ease-in-out infinite alternate;
 }
 
-@keyframes nebulaDriftA{
-  0%   { transform: translate(-2%, -1%) scale(1.02) rotate(-1deg); }
-  50%  { transform: translate( 1%,  2%) scale(1.06) rotate( 1deg); }
-  100% { transform: translate( 2%, -2%) scale(1.04) rotate( 2deg); }
-}
-
-@keyframes nebulaDriftB{
-  0%   { transform: translate( 2%,  1%) scale(1.03) rotate( 1deg); }
-  50%  { transform: translate(-1%, -2%) scale(1.06) rotate(-1deg); }
-  100% { transform: translate(-2%,  2%) scale(1.04) rotate(-2deg); }
+@keyframes backdropDrift{
+  0%   { transform: translate(-1%, 0%) scale(1.02); }
+  50%  { transform: translate( 1%, 1%) scale(1.06); }
+  100% { transform: translate( 2%,-1%) scale(1.03); }
 }
 
 /* Particle canvas overlay */
@@ -88,7 +72,7 @@ body::after{
   width: 100vw;
   height: 100vh;
   z-index: 1;
-  pointer-events:none;
+  pointer-events: none;
 }
 
 /* Centered hero content (no boxes) */
@@ -96,25 +80,26 @@ body::after{
   position: relative;
   z-index: 2;
   min-height: calc(100vh - 60px);
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   gap: 14px;
   padding: 34px 18px 18px;
-  text-align:center;
+  text-align: center;
 }
 
+/* Logo */
 .logo{
   width: min(560px, 86vw);
   height: auto;
-  display:block;
+  display: block;
 
-  /* Make logo pop */
+  /* Premium glow, works well on banner backdrop */
   filter:
     drop-shadow(0 0 18px rgba(56,189,248,0.22))
-    drop-shadow(0 0 42px rgba(59,130,246,0.14))
-    drop-shadow(0 0 70px rgba(167,139,250,0.08));
+    drop-shadow(0 0 44px rgba(59,130,246,0.14))
+    drop-shadow(0 0 76px rgba(167,139,250,0.10));
 }
 
 .tagline{
@@ -130,55 +115,59 @@ body::after{
   color: rgba(229,231,235,0.92);
 }
 
+/* Status: subtle, not a “box” */
 .status{
   margin-top: 6px;
   padding: 10px 12px;
   border-radius: 12px;
-
-  /* No “box” look—just subtle glow */
-  background: rgba(2,6,23,0.18);
-  box-shadow: 0 0 0 1px rgba(148,163,184,0.10) inset;
+  background: rgba(2,6,23,0.22);
+  box-shadow: 0 0 0 1px rgba(125,211,252,0.10) inset;
 }
 
-.statusTitle{ font-weight: 700; }
-.statusSub{ margin-top: 4px; color: var(--muted); }
+.statusTitle{ font-weight: 800; }
+.statusSub{ margin-top: 4px; color: rgba(163,179,199,0.90); }
 
+/* Links */
 .links{
-  display:flex;
-  align-items:center;
+  display: flex;
+  align-items: center;
   gap: 10px;
   margin-top: 4px;
 }
 
 .linksLabel{
-  color: rgba(163,179,199,0.9);
-  font-weight: 600;
+  color: rgba(163,179,199,0.92);
+  font-weight: 700;
 }
 
 .linkPill{
   text-decoration: none;
   color: var(--link);
-  font-weight: 800;
+  font-weight: 900;
   padding: 9px 14px;
   border-radius: 999px;
-  background: rgba(2,6,23,0.22);
+  background: rgba(2,6,23,0.26);
   box-shadow:
     0 0 0 1px rgba(125,211,252,0.18) inset,
-    0 0 26px rgba(56,189,248,0.08);
+    0 0 30px rgba(56,189,248,0.10);
+  transition: transform 120ms ease, box-shadow 160ms ease, filter 160ms ease;
 }
 
 .linkPill:hover{
   text-decoration: underline;
+  transform: translateY(-1px);
   box-shadow:
-    0 0 0 1px rgba(125,211,252,0.26) inset,
-    0 0 34px rgba(56,189,248,0.12);
+    0 0 0 1px rgba(125,211,252,0.28) inset,
+    0 0 42px rgba(56,189,248,0.14);
 }
 
+/* Warning */
 .warning{
   margin-top: 4px;
   color: var(--warn);
   font-size: 0.95rem;
-  max-width: 70ch;
+  max-width: 72ch;
+  text-shadow: 0 1px 10px rgba(0,0,0,0.30);
 }
 
 /* Footer pinned */
@@ -186,16 +175,16 @@ body::after{
   position: relative;
   z-index: 2;
   height: 60px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   padding: 10px 16px;
-  color: rgba(163,179,199,0.70);
+  color: rgba(163,179,199,0.72);
   font-size: 0.85rem;
 }
 
-/* Respect users who prefer reduced motion */
+/* Accessibility: respect reduced motion */
 @media (prefers-reduced-motion: reduce){
-  body::before, body::after { animation: none; }
+  body::after{ animation: none; }
 }
 
