@@ -16,19 +16,24 @@
 
 html, body { height: 100%; }
 
-body{
-  margin: 0;
-  min-height: 100vh;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-  color: var(--text);
-  overflow: hidden;
+body::before{
+  content:"";
+  position: fixed;
+  inset: -45%;
+  z-index: 0;
+  pointer-events: none;
 
-  /* NO IMAGE BACKDROP */
   background:
-    radial-gradient(1200px 800px at 50% 60%, rgba(20,30,50,0.35), transparent 70%),
-    linear-gradient(180deg, #020617, #000000);
+    radial-gradient(closest-side at 18% 44%, rgba(35, 95, 155, 0.28), transparent 66%),  /* deep blue */
+    radial-gradient(closest-side at 72% 38%, rgba(95, 55, 150, 0.26), transparent 68%),  /* dark purple */
+    radial-gradient(closest-side at 55% 82%, rgba(45, 120, 85, 0.18), transparent 72%),  /* dark green */
+    radial-gradient(closest-side at 86% 70%, rgba(25, 45, 90, 0.22), transparent 74%);   /* shadow blue */
 
-  position: relative;
+  filter: blur(85px);
+  opacity: 0.95;
+
+  animation: nebulaPulseA 18s ease-in-out infinite alternate;
+  mix-blend-mode: screen;
 }
 
 /* === DARK NEBULA LAYER (PRIMARY) === */
@@ -55,19 +60,21 @@ body::before{
 body::after{
   content:"";
   position: fixed;
-  inset: -45%;
+  inset: -55%;
   z-index: 0;
   pointer-events: none;
 
   background:
-    radial-gradient(closest-side at 25% 30%, rgba(40,70,120,0.16), transparent 72%),
-    radial-gradient(closest-side at 60% 20%, rgba(90,50,120,0.14), transparent 74%),
-    radial-gradient(closest-side at 60% 85%, rgba(60,110,90,0.12), transparent 76%);
+    radial-gradient(closest-side at 24% 28%, rgba(55, 120, 190, 0.18), transparent 74%), /* blue */
+    radial-gradient(closest-side at 62% 22%, rgba(120, 70, 175, 0.16), transparent 76%), /* purple */
+    radial-gradient(closest-side at 60% 88%, rgba(55, 150, 110, 0.12), transparent 78%), /* green */
+    radial-gradient(closest-side at 78% 55%, rgba(55, 120, 190, 0.10), transparent 78%); /* blue */
 
   filter: blur(120px);
-  opacity: 0.65;
+  opacity: 0.70;
 
-  animation: nebulaSlowB 40s ease-in-out infinite alternate;
+  animation: nebulaPulseB 30s ease-in-out infinite alternate;
+  mix-blend-mode: screen;
 }
 
 /* Very slow, heavy movement */
@@ -210,5 +217,16 @@ body::after{
   body::after{
     animation: none;
   }
+}
+@keyframes nebulaPulseA{
+  0%   { transform: translate(-2%, -1%) scale(1.02) rotate(-1deg); }
+  50%  { transform: translate( 1%,  2%) scale(1.10) rotate( 1deg); }
+  100% { transform: translate( 3%, -2%) scale(1.06) rotate( 2deg); }
+}
+
+@keyframes nebulaPulseB{
+  0%   { transform: translate( 2%,  1%) scale(1.03) rotate( 1deg); }
+  50%  { transform: translate(-1%, -2%) scale(1.12) rotate(-1deg); }
+  100% { transform: translate(-3%,  2%) scale(1.07) rotate(-2deg); }
 }
 
