@@ -61,8 +61,7 @@
     last = now;
 
     // Fade previous frame instead of full clear
-    ctx.fillStyle = `rgba(0, 0, 0, ${FADE})`;
-    ctx.fillRect(0, 0, w, h);
+    ctx.clearRect(0, 0, w, h);
 
     for (const p of particles) {
       // comet stroke behind particle
@@ -73,7 +72,7 @@
       ctx.beginPath();
       ctx.moveTo(tx, ty);
       ctx.lineTo(p.x, p.y);
-      ctx.strokeStyle = `rgba(${p.c.r}, ${p.c.g}, ${p.c.b}, ${Math.min(0.38, p.a)})`;
+      ctx.strokeStyle = `rgba(${p.c.r}, ${p.c.g}, ${p.c.b}, ${Math.min(0.55, p.a)})`;
       ctx.lineWidth = Math.max(1, p.r);
       ctx.stroke();
 

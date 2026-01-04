@@ -18,12 +18,11 @@ body{
   color: var(--text);
   overflow:hidden;
 
-  /* Deep space base */
   background:
-    radial-gradient(1200px 700px at 50% 65%, rgba(56,189,248,0.08), transparent 60%),
-    radial-gradient(900px 600px at 15% 20%, rgba(167,139,250,0.08), transparent 55%),
-    radial-gradient(900px 600px at 85% 25%, rgba(34,211,238,0.07), transparent 55%),
-    linear-gradient(180deg, var(--bg1), var(--bg0));
+    radial-gradient(1200px 800px at 50% 70%, rgba(120,215,255,0.10), transparent 62%),
+    radial-gradient(1000px 700px at 20% 20%, rgba(195,130,255,0.08), transparent 60%),
+    radial-gradient(900px 650px at 85% 25%, rgba(140,255,170,0.06), transparent 60%),
+    linear-gradient(180deg, #071225, #020617);
 }
 
 /* Animated nebula “clouds” (pure CSS) */
@@ -31,34 +30,36 @@ body::before,
 body::after{
   content:"";
   position: fixed;
-  inset:-20%;
+  inset:-25%;
   z-index:0;
   pointer-events:none;
-  filter: blur(40px);
-  opacity: 0.85;
   transform: translate3d(0,0,0);
+  mix-blend-mode: screen;  /* makes colors pop on dark */
 }
 
-/* Big, slow moving cloud layer */
+/* Primary nebula layer (stronger) */
 body::before{
+  filter: blur(55px);
+  opacity: 0.95;
   background:
-    radial-gradient(closest-side at 18% 42%, rgba(56,189,248,0.22), transparent 55%),
-    radial-gradient(closest-side at 40% 70%, rgba(34,211,238,0.16), transparent 60%),
-    radial-gradient(closest-side at 70% 40%, rgba(59,130,246,0.16), transparent 58%),
-    radial-gradient(closest-side at 80% 75%, rgba(167,139,250,0.14), transparent 60%);
-  animation: nebulaDriftA 22s ease-in-out infinite alternate;
+    radial-gradient(closest-side at 18% 45%, rgba(140,255,170,0.28), transparent 62%), /* green */
+    radial-gradient(closest-side at 40% 72%, rgba(120,215,255,0.26), transparent 64%), /* cyan */
+    radial-gradient(closest-side at 72% 42%, rgba(195,130,255,0.22), transparent 62%), /* purple */
+    radial-gradient(closest-side at 82% 78%, rgba(120,215,255,0.18), transparent 65%); /* cyan */
+  animation: nebulaDriftA 18s ease-in-out infinite alternate;
 }
 
-/* Secondary cloud layer for depth */
+/* Secondary nebula layer (adds depth + motion) */
 body::after{
+  filter: blur(75px);
+  opacity: 0.75;
   background:
-    radial-gradient(closest-side at 25% 30%, rgba(56,189,248,0.14), transparent 62%),
-    radial-gradient(closest-side at 60% 25%, rgba(34,211,238,0.12), transparent 60%),
-    radial-gradient(closest-side at 55% 80%, rgba(167,139,250,0.10), transparent 65%);
-  animation: nebulaDriftB 28s ease-in-out infinite alternate;
-  opacity: 0.65;
-  filter: blur(55px);
+    radial-gradient(closest-side at 22% 30%, rgba(120,215,255,0.18), transparent 66%), /* cyan */
+    radial-gradient(closest-side at 62% 26%, rgba(195,130,255,0.16), transparent 68%), /* purple */
+    radial-gradient(closest-side at 56% 82%, rgba(140,255,170,0.14), transparent 70%); /* green */
+  animation: nebulaDriftB 26s ease-in-out infinite alternate;
 }
+
 
 @keyframes nebulaDriftA{
   0%   { transform: translate(-2%, -1%) scale(1.02) rotate(-1deg); }
