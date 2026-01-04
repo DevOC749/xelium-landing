@@ -229,4 +229,23 @@ body::after{
   50%  { transform: translate(-1%, -2%) scale(1.12) rotate(-1deg); }
   100% { transform: translate(-3%,  2%) scale(1.07) rotate(-2deg); }
 }
+.stars{
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.25; /* minimal stars */
+  background:
+    radial-gradient(1px 1px at 12% 18%, rgba(255,255,255,0.9), transparent 60%),
+    radial-gradient(1px 1px at 22% 72%, rgba(255,255,255,0.8), transparent 60%),
+    radial-gradient(1px 1px at 38% 30%, rgba(255,255,255,0.7), transparent 60%),
+    radial-gradient(1px 1px at 55% 60%, rgba(255,255,255,0.7), transparent 60%),
+    radial-gradient(1px 1px at 68% 22%, rgba(255,255,255,0.8), transparent 60%),
+    radial-gradient(1px 1px at 82% 76%, rgba(255,255,255,0.75), transparent 60%),
+    radial-gradient(1px 1px at 90% 40%, rgba(255,255,255,0.7), transparent 60%),
+    radial-gradient(1px 1px at 15% 52%, rgba(255,255,255,0.6), transparent 60%),
+    radial-gradient(1px 1px at 48% 82%, rgba(255,255,255,0.6), transparent 60%),
+    radial-gradient(1px 1px at 74% 48%, rgba(255,255,255,0.6), transparent 60%);
+  filter: blur(0.2px);
+}
 
