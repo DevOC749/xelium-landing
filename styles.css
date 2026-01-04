@@ -1,26 +1,31 @@
 * { box-sizing: border-box; }
 
+:root {
+  --bg1: #0b1220;
+  --bg2: #020617;
+  --text: #e5e7eb;
+  --muted: #94a3b8;
+  --border: rgba(148, 163, 184, 0.18);
+  --card: rgba(2, 6, 23, 0.55);
+  --link: #7dd3fc;
+  --warn: #fca5a5;
+}
+
 body {
   margin: 0;
   min-height: 100vh;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-  color: #e5e7eb;
+  color: var(--text);
 
-  /* Your banner as the background */
-  background-image:
-    radial-gradient(circle at top, rgba(2,6,23,0.65), rgba(2,6,23,0.9)),
-    url("/assets/banner.png");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+  /* Dark base background (keep it clean so logo is the focus) */
+  background: radial-gradient(circle at top, var(--bg1), var(--bg2));
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: grid;
+  grid-template-rows: 1fr auto;
   overflow: hidden;
 }
 
-/* Full-screen particle canvas overlay */
+/* If you still have the particle canvas, keep it behind everything */
 #particles {
   position: fixed;
   inset: 0;
@@ -30,8 +35,105 @@ body {
   z-index: 0;
 }
 
-/* Ensure your content sits above the canvas */
 .container {
   position: relative;
   z-index: 1;
+  display: grid;
+  place-items: center;
+  padding: 28px 16px;
+}
+
+.card {
+  width: min(720px, 100%);
+  text-align: center;
+  padding: 28px 22px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--card);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 10px 40px rgba(0,0,0,0.35);
+}
+
+.logo {
+  width: min(420px, 85vw);
+  height: auto;
+  display: block;
+  margin: 0 auto 18px auto;
+
+  /* Subtle glow to make logo pop */
+  filter: drop-shadow(0 0 18px rgba(125, 211, 252, 0.25))
+          drop-shadow(0 0 38px rgba(59, 130, 246, 0.12));
+}
+
+.tagline {
+  margin: 0 0 10px 0;
+  font-size: 1.05rem;
+  color: var(--muted);
+}
+
+.description {
+  margin: 0 auto 18px auto;
+  max-width: 60ch;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--text);
+}
+
+.status {
+  margin: 0 auto 18px auto;
+  padding: 14px 14px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: rgba(2, 6, 23, 0.35);
+}
+
+.status-title { font-weight: 600; }
+.status-sub { color: var(--muted); margin-top: 4px; }
+
+.verify {
+  margin: 0 auto 14px auto;
+}
+
+.verify-title {
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.verify-links {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: rgba(2, 6, 23, 0.35);
+}
+
+.verify-links a {
+  color: var(--link);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.verify-links a:hover {
+  text-decoration: underline;
+}
+
+.dot {
+  color: rgba(148, 163, 184, 0.6);
+}
+
+.warning {
+  margin-top: 10px;
+  font-size: 0.95rem;
+  color: var(--warn);
+}
+
+.footer {
+  position: relative;
+  z-index: 1;
+  padding: 18px 16px;
+  text-align: center;
+  color: rgba(148, 163, 184, 0.75);
+  font-size: 0.85rem;
 }
